@@ -35,7 +35,7 @@ $templateCard = "";
 foreach ($poissons as $poisson) {
 
   $templateCard .= "<div class='card col-4 mt-5' style='width: 20rem'>
-        <img src='img/{$poisson['image']}' class='card-img-top' alt='...' />
+        <img src='img/{$poisson['image']}' class='card-img-top fishPic' alt='...' />
         <div class='card-body'>
           <h5 class='card-title'>{$poisson['nom']}</h5>
           <p class='card-text'>{$poisson['description']}</p>
