@@ -5,36 +5,48 @@ $poissons = [
     "nom" => "colin",
     "description" => "c'est un poisson gentil",
     "prix" => 42,
-    "image" => "colin.png"
+    "image" => "colin.png",
+    "eau" => "mer"
   ],
 
   [
     "nom" => "carpe",
     "description" => "un bon poisson mais un peu con",
     "prix" => 13,
-    "image" => "carpe.png"
+    "image" => "carpe.png",
+    "eau" => "douce"
   ],
 
   [
     "nom" => "cabillaud",
     "description" => "le roi des poissons surgelés",
     "prix" => 13,
-    "image" => "cabillaud.png"
+    "image" => "cabillaud.png",
+    "eau" => "mer"
   ],
 
   [
     "nom" => "piranha",
     "description" => "bonjour le poisson",
     "prix" => 1654,
-    "image" => "piranha.png"
+    "image" => "piranha.png",
+    "eau" => "douce"
   ]
 ];
 
-$templateCard = "";
+
+$type = false;
+
+if (isset($_GET['type'])) {
+  $type = $_GET['type'];
+}
+
+
+
+$page = "";
 
 foreach ($poissons as $poisson) {
-
-  $templateCard .= "<div class='card col-4 mt-5' style='width: 20rem'>
+  $templateCard = "<div class='card col-4 mt-5' style='width: 20rem'>
         <img src='img/{$poisson['image']}' class='card-img-top fishPic' alt='...' />
         <div class='card-body'>
           <h5 class='card-title'>{$poisson['nom']}</h5>
@@ -43,7 +55,11 @@ foreach ($poissons as $poisson) {
           <a href='#' class='btn btn-primary'>Acheter</a>
         </div>
       </div>";
+  if (!$type || $type == $poisson['eau']) {
+    $page .= $templateCard;
+  }
 }
+
 
 ?>
 
@@ -64,7 +80,7 @@ foreach ($poissons as $poisson) {
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Poisson frais</a>
+      <a class="navbar-brand" href="/poissonnerie">Poisson frais</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -86,9 +102,25 @@ foreach ($poissons as $poisson) {
 
 
   <div class="container">
+    <div class="mt-5 d-flex">
+      <form><button type="submit" name="type" value="douce" class="btn btn-primary">eau douce</button></form>
+      <form><button type="submit" name="type" value="mer" class="btn btn-secondary">eau de mer</button></form>
+      <a class="btn btn-info" href="/poissonnerie">tous les poissons</a>
+    </div>
     <div class="row justify-content-between">
       <?php
-      echo $templateCard;
+
+
+
+
+
+      echo $page;
+
+
+
+
+
+
       ?>
     </div>
   </div>
