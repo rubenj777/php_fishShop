@@ -1,65 +1,7 @@
 <?php
 
-$poissons = [
-  [
-    "nom" => "colin",
-    "description" => "c'est un poisson gentil",
-    "prix" => 42,
-    "image" => "colin.png",
-    "eau" => "mer"
-  ],
-
-  [
-    "nom" => "carpe",
-    "description" => "un bon poisson mais un peu con",
-    "prix" => 13,
-    "image" => "carpe.png",
-    "eau" => "douce"
-  ],
-
-  [
-    "nom" => "cabillaud",
-    "description" => "le roi des poissons surgelés",
-    "prix" => 13,
-    "image" => "cabillaud.png",
-    "eau" => "mer"
-  ],
-
-  [
-    "nom" => "piranha",
-    "description" => "bonjour le poisson",
-    "prix" => 1654,
-    "image" => "piranha.png",
-    "eau" => "douce"
-  ]
-];
-
-
-$type = false;
-
-if (isset($_GET['type'])) {
-  $type = $_GET['type'];
-}
-
-
-
-$page = "";
-
-foreach ($poissons as $poisson) {
-  $templateCard = "<div class='card col-4 mt-5' style='width: 20rem'>
-        <img src='img/{$poisson['image']}' class='card-img-top fishPic' alt='...' />
-        <div class='card-body'>
-          <h5 class='card-title'>{$poisson['nom']}</h5>
-          <p class='card-text'>{$poisson['description']}</p>
-          <p class='card-text'>{$poisson['prix']}€/kilo</p>
-          <a href='#' class='btn btn-primary'>Acheter</a>
-        </div>
-      </div>";
-  if (!$type || $type == $poisson['eau']) {
-    $page .= $templateCard;
-  }
-}
-
+require_once "auth.php";
+require_once "fishes.php";
 
 ?>
 
@@ -78,7 +20,7 @@ foreach ($poissons as $poisson) {
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary justify-content-center">
     <div class="container-fluid">
       <a class="navbar-brand" href="/poissonnerie">Poisson frais</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,13 +29,20 @@ foreach ($poissons as $poisson) {
 
       <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link active" href="#">Boutique
-              <span class="visually-hidden">(current)</span>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Connection
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Poissons</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <form action="" method="post" class="form-group p-2">
+                  <input type="text" name="username" class="mb-2">
+                  <input type="password" name="password" class="mb-2">
+                  <button type="submit" class="btn btn-primary mb-2">Se connecter</button>
+                  <?= $error; ?>
+                </form>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -103,26 +52,15 @@ foreach ($poissons as $poisson) {
 
   <div class="container">
     <div class="mt-5 d-flex">
-      <form><button type="submit" name="type" value="douce" class="btn btn-primary">eau douce</button></form>
-      <form><button type="submit" name="type" value="mer" class="btn btn-secondary">eau de mer</button></form>
-      <a class="btn btn-info" href="/poissonnerie">tous les poissons</a>
+      <form><button type="submit" name="type" value="douce" class="btn btn-primary m-1">eau douce</button></form>
+      <form><button type="submit" name="type" value="mer" class="btn btn-secondary m-1">eau de mer</button></form>
+      <a class="btn btn-info m-1" href="/poissonnerie">tous les poissons</a>
     </div>
-    <div class="row justify-content-between">
-      <?php
 
-
-
-
-
-      echo $page;
-
-
-
-
-
-
-      ?>
+    <div class="row">
+      <?php echo $page; ?>
     </div>
+
   </div>
 </body>
 
